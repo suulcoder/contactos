@@ -4,7 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_contacto.*
+import kotlinx.android.synthetic.main.activity_correo.*
 import kotlinx.android.synthetic.main.activity_list_item.*
 
 class Contacto : AppCompatActivity() {
@@ -23,16 +26,23 @@ class Contacto : AppCompatActivity() {
         home.setOnClickListener{//redirigimos los botones
             val intento = Intent(this, Contactos::class.java)//Redirigimos a contactos
             startActivity(intento)
-            onStop()
+            this.finish()
         }
 
         goMail.setOnClickListener{//enviamos a correo
-            val intent = Intent(this, Correo::class.java)
-            intent.putExtra("mail", getIntent().getStringExtra("mail"))
-            intent.putExtra("numero", getIntent().getStringExtra("telefono"))
-            intent.putExtra("message" , "Mi nombre es " + getIntent().getStringExtra("nombre")+ ", y mi telefono es " + number)
-            startActivity(intent)
-            onStop()
+            val emailIntent = Intent(Intent.ACTION_SEND)
+            //Making the intent for email
+            emailIntent.data = Uri.parse("mailto:")
+            emailIntent.type = "text/plain"
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, getIntent().getStringExtra("mail"))
+            val nombre = getIntent().getStringExtra(("nombre"))
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Mi nombre es $nombre, y mi teléfono es $number")
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Send mail..."))
+                Log.i("Enviando correo...", "")
+            } catch (ex: android.content.ActivityNotFoundException) {
+                Snackbar.make(parent_view, "No hay cliente de email...", Snackbar.LENGTH_LONG).show()
+            }
         }
 
         call.setOnClickListener{

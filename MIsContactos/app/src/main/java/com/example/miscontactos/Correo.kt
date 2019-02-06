@@ -1,46 +1,57 @@
 package com.example.miscontactos
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.Toast
-import com.example.miscontactos.models.ApplicationExt
-import com.example.miscontactos.models.Contact
+import android.support.design.widget.Snackbar
 import kotlinx.android.synthetic.main.activity_contacto.*
 import kotlinx.android.synthetic.main.activity_correo.*
-import kotlinx.android.synthetic.main.activity_crear.*
 
 class Correo : AppCompatActivity() {
+    //Initial strings
+    lateinit var sender: String
+    lateinit var receiver: String
+    lateinit var message: String
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {//empezamos activity
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_correo)
 
-        var mail = getIntent().getStringExtra("mail")
-        var mensaje = getIntent().getStringExtra("message")
-        var number = getIntent().getStringExtra("numero")
-
-        send.setOnClickListener{}
-
-        mailto.setText(mail)
-        text.setText(mensaje)
-
-
-            var recipent = findViewById(R.id.recipent) as EditText
-            var mailto = findViewById(R.id.mailto) as EditText
-            var subject = findViewById(R.id.subject) as EditText
-            var message = findViewById(R.id.text) as EditText
-
-        send.setOnClickListener {//enviamos correo
-            val intento1 = Intent(this, Contactos::class.java)
-            Toast.makeText(this, message.getText().toString() +  "enviado desde " + recipent.getText().toString() + " hacia " + mailto.getText().toString(),Toast.LENGTH_LONG).show()
-            startActivity(intento1)
-            onStop()
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if ("text/plain" == intent.type) {
+                    handleSendText(intent) // Handle text being sent
+                }
+            }
         }
 
+        //Button for send message
+        send.setOnClickListener {
+            sender = recipent.text.toString()
+            receiver = mailto.text.toString()
+            message = text.text.toString()
+
+            Snackbar.make(
+                parent_view,
+                "$message enviado desde $sender hacia $receiver",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+
+        home1.setOnClickListener{//redirigimos los botones
+            val intento = Intent(this, Contactos::class.java)//Redirigimos a contactos
+            startActivity(intento)
+            this.finish()
+        }
+    }
+
+    private fun handleSendText(intent: Intent) {
+
+        message = intent.getStringExtra(Intent.EXTRA_TEXT)
+        receiver = intent.getStringExtra(Intent.EXTRA_EMAIL)
+
+        text.setText(message)
+        mailto.setText(receiver)
     }
 }
