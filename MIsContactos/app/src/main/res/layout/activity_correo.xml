@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Correo"
+        android:background="@drawable/fondo3">
+
+<LinearLayout android:layout_marginTop="15sp" android:layout_marginBottom="15sp" android:layout_marginLeft="15sp" android:layout_marginRight="15sp" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:gravity="right">
+
+
+            <ImageButton
+
+                    android:layout_marginLeft="25sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" app:srcCompat="?attr/actionModeCloseDrawable"
+                    android:id="@+id/home" android:layout_marginStart="25sp"
+                    android:contentDescription="boton para regresar al incio"/>
+
+        </LinearLayout>
+
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="25sp"
+            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_menu_send"
+            android:id="@+id/send"
+            android:layout_gravity="right"/>
+    <EditText
+            android:layout_marginTop="5sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:background="@android:color/black"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:id="@+id/recipent" android:hint="recipent:"/>
+
+    <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/mailto" android:hint="mailto:"
+            android:background="@android:color/black"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            />
+
+    <EditText
+
+            android:background="@android:color/black"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="@android:dimen/app_icon_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/subject" android:hint="subject"/>
+
+    <EditText
+
+            android:background="@android:color/black"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/text" android:hint="Message"/>
+
+
+</LinearLayout>
+
+</RelativeLayout>
