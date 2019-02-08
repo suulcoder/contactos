@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -41,16 +42,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         /*Agregamos los contactos a la base de datos*/
-        val values = ContentValues()
-        val Contact1 = Contact("Bill Gates","30355923","con18409uvg.edugt", R.drawable.gates)
-        val Contact2 = Contact("Elvis Presley","52021073","scontrerasig@gmail.com", R.drawable.elvis)
-        val Contact3 = Contact("Russo Brothers","45416153","ef.proyectomundial@gmail.com", R.drawable.russo)
-        values.put(ContactProvider.NAME, "Bill Gates")
-        values.put(ContactProvider.PHONE, "30355923")
-        values.put(ContactProvider.EMAIL, "con18409uvg.edugt")
-        values.put(ContactProvider.IMAGEN, R.drawable.gates)
-        val uri = contentResolver.insert(ContactProvider.CONTENT_URI, values)
+        //val values = ContentValues()
+        //values.put(ContactProvider.NAME, "Russo Brothers")
+        //values.put(ContactProvider.PHONE, "45416153")
+        //values.put(ContactProvider.EMAIL, "ef.proyectomundial@gmail.com")
+        //values.put(ContactProvider.IMAGEN, R.drawable.russo)
+        //val uri = contentResolver.insert(ContactProvider.CONTENT_URI, values)
 
+        val URL = "content://com.example.miscontactos.Provider.ContactProvider"
+
+        val contacts = Uri.parse(URL)
+        val c = contentResolver.query(contacts, null, null, null, "name")
+
+
+        if (c.moveToFirst()) {
+            do {
+                val Contact = Contact(c.getString(c.getColumnIndex(ContactProvider.NAME)),c.getString(c.getColumnIndex(ContactProvider.PHONE)),c.getString(c.getColumnIndex(ContactProvider.EMAIL)), c.getInt(c.getColumnIndex(ContactProvider.IMAGEN)))
+                ApplicationExt.add(Contact)
+            } while (c.moveToNext())
+        }
+        c.close();
 
 
         ver.setOnClickListener{//redirigimos los botones
