@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             )
         ) {
 
-        } else {
+        } else {//mostramos mensajes
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.CALL_PHONE),
@@ -40,29 +40,6 @@ class MainActivity : AppCompatActivity() {
             )
 
         }
-
-        /*Agregamos los contactos a la base de datos*/
-        //val values = ContentValues()
-        //values.put(ContactProvider.NAME, "Russo Brothers")
-        //values.put(ContactProvider.PHONE, "45416153")
-        //values.put(ContactProvider.EMAIL, "ef.proyectomundial@gmail.com")
-        //values.put(ContactProvider.IMAGEN, R.drawable.russo)
-        //val uri = contentResolver.insert(ContactProvider.CONTENT_URI, values)
-
-        val URL = "content://com.example.miscontactos.Provider.ContactProvider"
-
-        val contacts = Uri.parse(URL)
-        val c = contentResolver.query(contacts, null, null, null, "name")
-
-
-        if (c.moveToFirst()) {
-            do {
-                val Contact = Contact(c.getString(c.getColumnIndex(ContactProvider.NAME)),c.getString(c.getColumnIndex(ContactProvider.PHONE)),c.getString(c.getColumnIndex(ContactProvider.EMAIL)), c.getInt(c.getColumnIndex(ContactProvider.IMAGEN)))
-                ApplicationExt.add(Contact)
-            } while (c.moveToNext())
-        }
-        c.close();
-
 
         ver.setOnClickListener{//redirigimos los botones
             val intento = Intent(this, Contactos::class.java)//Redirigimos a contactos

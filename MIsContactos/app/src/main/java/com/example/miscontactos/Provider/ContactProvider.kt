@@ -118,11 +118,11 @@ class ContactProvider : ContentProvider() {
     override fun getType(uri: Uri): String? {
         when (uriMatcher.match(uri)) {
             /*OBTENER TODOS LOS DATOS*/
-            CONTACTS -> return "vnd.android.cursor.dir/vnd.example.students"
+            CONTACTS -> return "vnd.android.cursor.dir/vnd.example.contacts"
             /**
              * Get a particular student
              */
-            CONTACT_ID -> return "vnd.android.cursor.item/vnd.example.students"
+            CONTACT_ID -> return "vnd.android.cursor.item/vnd.example.contacts"
             else -> throw IllegalArgumentException("Unsupported URI: $uri")
         }
     }

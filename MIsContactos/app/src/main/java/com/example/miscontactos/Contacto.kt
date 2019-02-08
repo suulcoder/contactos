@@ -16,7 +16,6 @@ class Contacto : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacto)
 
-
         showNombre.setText(getIntent().getStringExtra("nombre"))//pedimos los datos del intent anterior
         var number = getIntent().getStringExtra("telefono")
         showPhone.setText(number)
