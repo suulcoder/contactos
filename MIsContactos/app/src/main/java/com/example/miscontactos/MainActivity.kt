@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
         ver.setOnClickListener{//redirigimos los botones
             val intento = Intent(this, Contactos::class.java)//Redirigimos a contactos
             startActivity(intento)

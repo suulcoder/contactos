@@ -11,7 +11,6 @@ import android.widget.Toast
 import com.example.miscontactos.Provider.ContactProvider
 import com.example.miscontactos.models.ApplicationExt
 import com.example.miscontactos.models.Contact
-import kotlinx.android.synthetic.main.activity_contacto.*
 import kotlinx.android.synthetic.main.activity_contactos.*
 
 class Contactos : AppCompatActivity() {

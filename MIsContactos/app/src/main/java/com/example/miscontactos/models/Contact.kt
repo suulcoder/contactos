@@ -1,8 +1,6 @@
 package com.example.miscontactos.models
 
-import android.app.Application
-
-data class Contact(var nombre:String, var tele:String, var email:String, var image:Int)    {
+data class Contact(var nombre:String, var tele:String, var email:String, var image: Int)    {
 
     //Compara si dos objetos son identicos
     fun compare(contacto: Contact): Boolean {
