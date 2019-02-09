@@ -25,7 +25,6 @@ class Crear : AppCompatActivity() {
         }
 
 
-
         save.setOnClickListener {
             val values = ContentValues()
             values.put(ContactProvider.NAME, nombre.text.toString())

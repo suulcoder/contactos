@@ -88,7 +88,6 @@ class ContactProvider : ContentProvider() {
                             if (!TextUtils.isEmpty(selection)) " AND ($selection)" else "", selectionArgs
                 )
             }
-            else -> throw IllegalArgumentException("Unknown URI $uri")
         }
 
         context!!.contentResolver.notifyChange(uri, null)
