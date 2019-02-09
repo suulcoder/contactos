@@ -19,11 +19,14 @@ class editContact : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_contact)
 
-        showNombre.setText(getIntent().getStringExtra("nombre"))//pedimos los datos del intent anterior
+        val name = getIntent().getStringExtra("nombre")//pedimos los datos del intent anterior
+        nombre.setText(name)
         var number = getIntent().getStringExtra("telefono")
-        showPhone.setText(number)
-        showMail.setText(getIntent().getStringExtra("mail"))
-        setPhoto.setImageDrawable(getDrawable(getIntent().getIntExtra("foto",R.drawable.background)))
+        telefono.setText(number)
+        val mail = getIntent().getStringExtra("mail")
+        correo.setText(mail)
+        val picture = getDrawable(getIntent().getIntExtra("foto",R.drawable.background))
+        imageView.setImageDrawable(picture)
 
         tomar.setOnClickListener {
             tomarFoto()
@@ -37,25 +40,26 @@ class editContact : AppCompatActivity() {
         }
 
         save.setOnClickListener {
-            val Contact1 = Contact(nombre.getText().toString(),telefono.getText().toString(),correo.getText().toString(), imageView.getDrawable().getConstantState().hashCode())
+            val Contact1 = Contact(nombre.getText().toString(),telefono.getText().toString(),correo.getText().toString(), R.drawable.fondo)
             var accion = ApplicationExt.analize(Contact1)
             if (accion){
                 Toast.makeText(this, "ESTE CONTACTO YA ESTA REGISTRADO.", Toast.LENGTH_LONG).show()
             }
             else{
 
-                val list: Array<String> =  arrayOf(number)
+                val list: Array<String> =  arrayOf(name)
                 val values = ContentValues()
                 values.put(ContactProvider.NAME, nombre.text.toString())
                 values.put(ContactProvider.PHONE, telefono.text.toString())
                 values.put(ContactProvider.EMAIL, correo.text.toString())
-                values.put(ContactProvider.IMAGEN, imageView.drawable.getConstantState().hashCode())
-                val uri = contentResolver.update(ContactProvider.CONTENT_URI, values,"phone=?",list)
+                values.put(ContactProvider.IMAGEN, R.drawable.fondo)
+                val uri = contentResolver.update(ContactProvider.CONTENT_URI, values,"name = ?",list)
+                ApplicationExt.contactlist.clear()//limpiamos la lista para ser actualizada en el proximo activity
                 val intento1 = Intent(this,Contacto::class.java)//creamos un nuevo contacto y lo agregamos y enviamos a su respectivo activity
                 intento1.putExtra("nombre",nombre.text.toString())
                 intento1.putExtra("telefono",telefono.text.toString())
                 intento1.putExtra("mail",correo.text.toString())
-                intento1.putExtra("foto",imageView.drawable.getConstantState().hashCode())
+                intento1.putExtra("foto",R.drawable.fondo)
                 startActivity(intento1)
                 onStop()
             }

@@ -17,11 +17,11 @@
 
 
             <ImageButton
-
                     android:layout_marginLeft="25sp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" app:srcCompat="?attr/actionModeCloseDrawable"
-                    android:id="@+id/home" android:layout_marginStart="25sp"
+                    android:id="@+id/regreso"
+                    android:layout_marginStart="25sp"
                     android:contentDescription="boton para regresar al incio"/>
 
         </LinearLayout>

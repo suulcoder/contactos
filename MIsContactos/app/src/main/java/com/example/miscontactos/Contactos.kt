@@ -61,10 +61,10 @@ class Contactos : AppCompatActivity() {
         listview.onItemLongClickListener = object : AdapterView.OnItemLongClickListener{//SI lo mantiene sostenido se elimina y notifica
         override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
             val itemValue = listview.getItemAtPosition(position) as String
-            Toast.makeText(applicationContext,"Se ha eliminado el elemento " + ApplicationExt.contactlist[position] + " al carrito de compra",Toast.LENGTH_SHORT).show()//Informamos el elemento que se elimino
+            Toast.makeText(applicationContext,"Se ha eliminado el elemento " + ApplicationExt.contactlist[position],Toast.LENGTH_SHORT).show()//Informamos el elemento que se elimino
             /*Ahora lo eliminamos de la base de datos*/
             val list: Array<String> =  arrayOf(ApplicationExt.contactlist[position].nombre)
-            val uri = contentResolver.delete(ContactProvider.CONTENT_URI,"name=?", list)
+            val uri = contentResolver.delete(ContactProvider.CONTENT_URI,"name = ?", list)
             ApplicationExt.del(position)//lo eliminamos del array
             adapter.notifyDataSetChanged()//Actualizamos
             return true

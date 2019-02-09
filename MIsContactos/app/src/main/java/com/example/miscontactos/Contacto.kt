@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.util.Log
+import com.example.miscontactos.models.ApplicationExt
 import kotlinx.android.synthetic.main.activity_contacto.*
 import kotlinx.android.synthetic.main.activity_correo.*
 import kotlinx.android.synthetic.main.activity_list_item.*
@@ -24,6 +25,16 @@ class Contacto : AppCompatActivity() {
 
         home.setOnClickListener{//redirigimos los botones
             val intento = Intent(this, Contactos::class.java)//Redirigimos a contactos
+            startActivity(intento)
+            this.finish()
+        }
+
+        edit.setOnClickListener{//redirigimos los botones
+            val intento = Intent(this, editContact::class.java)//Redirigimos a contactos
+            intento.putExtra("nombre", getIntent().getStringExtra("nombre"))
+            intento.putExtra("telefono", getIntent().getStringExtra("telefono"))
+            intento.putExtra("mail", getIntent().getStringExtra("mail"))
+            intento.putExtra("foto", getIntent().getStringExtra("foto"))
             startActivity(intento)
             this.finish()
         }
