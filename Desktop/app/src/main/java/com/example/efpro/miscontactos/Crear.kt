@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,8 +14,17 @@ import com.example.efpro.miscontactos.data.Contact
 import kotlinx.android.synthetic.main.activity_crear.*
 import kotlinx.android.synthetic.main.list_item.*
 import java.io.FileNotFoundException
+import android.graphics.drawable.BitmapDrawable
+import androidx.core.app.NotificationCompat.getExtras
+import java.io.ByteArrayOutputStream
+import android.graphics.Bitmap.CompressFormat
+
+
+
 
 class Crear : AppCompatActivity() {
+
+    val REQUEST_IMAGE_CAPTURE = 1
 
     //Extraemos la nueva informacion
     companion object {
@@ -41,10 +51,15 @@ class Crear : AppCompatActivity() {
             nombre.setText(intent.getStringExtra(EXTRA_NOMBRE))
             telefono.setText(intent.getStringExtra(EXTRA_PHONE))
             correo.setText(intent.getStringExtra(EXTRA_MAIL))
+
             number_picker_priority.value = intent.getIntExtra(EXTRA_PRIORITY,1)
             //imageView.setImageState()
         }else{//o agregar uno nuevo
             //tittle = "AGREGAR"
+        }
+
+        tomar.setOnClickListener {
+            tomarFoto()
         }
 
         save.setOnClickListener{
@@ -66,7 +81,9 @@ class Crear : AppCompatActivity() {
             putExtra(EXTRA_PHONE,telefono.text.toString())
             putExtra(EXTRA_MAIL,correo.text.toString())
             putExtra(EXTRA_PRIORITY,number_picker_priority.value)
-            //putExtra(EXTRA_IMAGE,imageView.get)
+            val bitmap = (imageView.getDrawable() as BitmapDrawable).bitmap//tomamos la foto actual
+            val image = getBytesFromBitmap(bitmap)//la convertimos a bytemap
+            putExtra(EXTRA_IMAGE,image)//la agregamos al intent
             if (intent.getIntExtra(EXTRA_ID,-1) != -1){
                 putExtra(EXTRA_ID,intent.getIntExtra(EXTRA_ID,-1))
             }
@@ -75,5 +92,27 @@ class Crear : AppCompatActivity() {
         setResult(Activity.RESULT_OK,data)
         finish()
 
+    }
+
+    fun getBytesFromBitmap(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(CompressFormat.JPEG, 70, stream)
+        return stream.toByteArray()
+    }
+
+
+    private fun tomarFoto() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras!!.get("data") as Bitmap
+            imageView.setImageBitmap(imageBitmap)
+        }
     }
 }

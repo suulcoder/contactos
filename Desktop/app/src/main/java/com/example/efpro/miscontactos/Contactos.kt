@@ -15,6 +15,8 @@ import com.example.efpro.miscontactos.viewmodels.ContactViewModel
 import com.example.efpro.miscontactos.data.Contact
 import kotlinx.android.synthetic.main.activity_contactos.*
 
+
+
 @Suppress("PLUGIN_WARNING")
 class Contactos : AppCompatActivity() {
 
@@ -49,15 +51,15 @@ class Contactos : AppCompatActivity() {
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)){
             override fun onMove(
-                recyclerView: androidx.recyclerview.widget.RecyclerView,
-                viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
-                target: androidx.recyclerview.widget.RecyclerView.ViewHolder
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
             ):Boolean{
                 return false
             }
 
             override fun onSwiped(p0: androidx.recyclerview.widget.RecyclerView.ViewHolder, p1: Int) {
-                ContactViewModel.delete(adapter.getContactAt(viewHolder.adapterPosition))
+                ContactViewModel.delete(adapter.getContactAt(p0.adapterPosition))
                 Toast.makeText(baseContext,"Elemento Borrado",Toast.LENGTH_SHORT).show()
             }
         }).attachToRecyclerView(recycler_view)

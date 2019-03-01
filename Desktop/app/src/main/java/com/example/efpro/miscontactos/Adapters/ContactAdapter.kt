@@ -4,12 +4,13 @@ import androidx.recyclerview.widget.DiffUtil
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListAdapter
 import android.widget.TextView
 import com.example.efpro.miscontactos.R
 import com.example.efpro.miscontactos.data.Contact
 import kotlinx.android.synthetic.main.list_item.*
 import kotlinx.android.synthetic.main.list_item.view.*
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 
 
 class ContactAdapter() : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_CALLBACK) {
