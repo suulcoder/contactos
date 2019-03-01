@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MIsContactos</string>
+    <string name="nombre">Nombre</string>
+    <string name="send">Send</string>
+    <string name="recipent">recipent:</string>
+    <string name="mail_to">Mail to :</string>
+    <string name="subject">subject</string>
+    <string name="message">Message</string>
+    <string name="ver">Ver</string>
+    <string name="mis_contactos">Mis Contactos</string>
+    <string name="priority">Priority:</string>
+    <string name="tittle">Tittle</string>
+</resources>
