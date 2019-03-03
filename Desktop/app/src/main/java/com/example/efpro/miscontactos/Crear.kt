@@ -18,15 +18,19 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.core.app.NotificationCompat.getExtras
 import java.io.ByteArrayOutputStream
 import android.graphics.Bitmap.CompressFormat
-
-
-
-
+import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
+import com.example.efpro.miscontactos.Contactos.Companion.EDIT_CONTACT_REQUEST
+import com.example.efpro.miscontactos.data.ContactDao
+import com.example.efpro.miscontactos.data.ContactRepository
+import com.example.efpro.miscontactos.viewmodels.ContactViewModel
+import java.io.IOException
 class Crear : AppCompatActivity() {
 
-    val REQUEST_IMAGE_CAPTURE = 1
+    val REQUEST_IMAGE_CAPTURE = 2
+    val REQUEST_GALLERY = 1
 
-    //Extraemos la nueva informacion
+   //Extraemos la nueva informacion
     companion object {
         const val EXTRA_ID = "com.example.efpro.miscontactos.EXTRA_ID"
         const val EXTRA_NOMBRE = "com.example.efpro.miscontactos.EXTRA_NOMBRE"
@@ -36,24 +40,20 @@ class Crear : AppCompatActivity() {
         const val EXTRA_IMAGE = "com.example.efpro.miscontactos.EXTRA:IMAGE"
 
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crear)
-
         number_picker_priority.minValue = 1
         number_picker_priority.maxValue = 10
 
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_mtrl_chip_close_circle)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.adduser)
 
         //si la opcion es editar
-        if(intent.hasExtra(EXTRA_ID)){
-            nombre.setText(intent.getStringExtra(EXTRA_NOMBRE))
+        if(intent.getIntExtra(EXTRA_ID,-1) != -1 ) {
+            nombre.setText(intent.getStringExtra(EXTRA_PHONE))
             telefono.setText(intent.getStringExtra(EXTRA_PHONE))
             correo.setText(intent.getStringExtra(EXTRA_MAIL))
-
             number_picker_priority.value = intent.getIntExtra(EXTRA_PRIORITY,1)
-            //imageView.setImageState()
         }else{//o agregar uno nuevo
             //tittle = "AGREGAR"
         }
@@ -62,8 +62,18 @@ class Crear : AppCompatActivity() {
             tomarFoto()
         }
 
+        cargar.setOnClickListener{
+            galeria()
+        }
+
         save.setOnClickListener{
             saveContact()
+        }
+
+        regreso.setOnClickListener{
+            val intento = Intent(this, Contactos::class.java)//Redirigimos a contactos
+            startActivity(intento)
+            this.finish()
         }
     }
 
@@ -71,34 +81,31 @@ class Crear : AppCompatActivity() {
 
 
     private fun saveContact(){
-        if(nombre.text.toString().trim().isBlank() || telefono.text.toString().trim().isBlank() || correo.text.toString().trim().isBlank()){
+        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val imagen = stream.toByteArray()
+        if(nombre.text.toString().isNotEmpty() && telefono.text.toString().isNotEmpty() || correo.text.toString().isNotEmpty()){
+
+            val data = Intent().apply {
+                putExtra(EXTRA_NOMBRE,nombre.text.toString())
+                putExtra(EXTRA_PHONE,telefono.text.toString())
+                putExtra(EXTRA_MAIL,correo.text.toString())
+                putExtra(EXTRA_PRIORITY,number_picker_priority.value)
+                putExtra(EXTRA_IMAGE,imagen)//la agregamos al intent
+                if (intent.getIntExtra(EXTRA_ID,-1) != -1){
+                    putExtra(EXTRA_ID,intent.getIntExtra(EXTRA_ID,-1))
+                }
+            }
+            setResult(Activity.RESULT_OK,data)
+            finish()
+
+        }else{
             Toast.makeText(this,"POR FAVOR LLENE TODOS LOS ESPACIOS", Toast.LENGTH_SHORT).show()
             return
         }
-
-        val data = Intent().apply {
-            putExtra(EXTRA_NOMBRE,nombre.text.toString())
-            putExtra(EXTRA_PHONE,telefono.text.toString())
-            putExtra(EXTRA_MAIL,correo.text.toString())
-            putExtra(EXTRA_PRIORITY,number_picker_priority.value)
-            val bitmap = (imageView.getDrawable() as BitmapDrawable).bitmap//tomamos la foto actual
-            val image = getBytesFromBitmap(bitmap)//la convertimos a bytemap
-            putExtra(EXTRA_IMAGE,image)//la agregamos al intent
-            if (intent.getIntExtra(EXTRA_ID,-1) != -1){
-                putExtra(EXTRA_ID,intent.getIntExtra(EXTRA_ID,-1))
-            }
-        }
-
-        setResult(Activity.RESULT_OK,data)
-        finish()
-
     }
 
-    fun getBytesFromBitmap(bitmap: Bitmap): ByteArray {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(CompressFormat.JPEG, 70, stream)
-        return stream.toByteArray()
-    }
 
 
     private fun tomarFoto() {
@@ -109,10 +116,34 @@ class Crear : AppCompatActivity() {
         }
     }
 
+    private fun galeria() {
+        val galleryIntent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+
+        startActivityForResult(galleryIntent, 1)
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             val imageBitmap = data?.extras!!.get("data") as Bitmap
             imageView.setImageBitmap(imageBitmap)
+        }else if (requestCode == REQUEST_GALLERY) {
+            //To get the contact photo from the gallery
+            if (data != null) {
+                val contentURI = data!!.data
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+                    imageView!!.setImageBitmap(bitmap)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+            }
+
         }
     }
+
 }

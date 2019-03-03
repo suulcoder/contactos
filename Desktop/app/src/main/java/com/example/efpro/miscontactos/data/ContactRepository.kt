@@ -6,14 +6,14 @@ import android.os.AsyncTask
 
 
 class ContactRepository(application: Application){
-    private var ContactDao: ContactDao
+    var ContactDao: ContactDao
     private var allContacts: LiveData<List<Contact>>
 
     init{
         val database: ContactDatabase = ContactDatabase.getInstance(
             application.applicationContext
         )!!
-        ContactDao = database.ContactDao()
+        ContactDao = database.contactDao()
         allContacts = ContactDao.getAllContacts()
     }
 

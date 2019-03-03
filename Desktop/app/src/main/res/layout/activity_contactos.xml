@@ -18,9 +18,8 @@
             android:id="@+id/buttonAddContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/elvis"
             android:layout_marginBottom="16dp"
             android:layout_gravity="bottom|right"
-            tools:ignore="RtlHardcoded"/>
+            tools:ignore="RtlHardcoded" android:src="@drawable/adduser"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

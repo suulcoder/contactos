@@ -16,7 +16,7 @@
                 android:layout_width="191dp"
                 android:layout_height="194dp"
                 android:id="@+id/photo" android:layout_marginTop="8dp"
-                android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:srcCompat="@drawable/gates"
+                android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
                 tools:ignore="ContentDescription"/>
 
 

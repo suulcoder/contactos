@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import com.example.efpro.miscontactos.data.Contact
 import com.example.efpro.miscontactos.data.ContactRepository
 
-class ContactViewModel(application: Application): AndroidViewModel(application){
+class ContactViewModel(application: android.app.Application): AndroidViewModel(application){
     private var repository : ContactRepository = ContactRepository(application)
     private var allContacts: LiveData<List<Contact>> = repository.getAllContacts()
 

@@ -18,7 +18,7 @@ class ContactAdapter() : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Contact>() {
             override fun areContentsTheSame(p0: Contact, p1: Contact): Boolean {
-                return p0.nombre == p1.nombre && p0.tele == p1.tele && p0.email==p1.email && p0.image.contentEquals(p1.image) && p0.priority == p1.priority
+                return p0.nombre == p1.nombre && p0.tele == p1.tele && p0.email==p1.email && p0.priority == p1.priority
             }
 
             override fun areItemsTheSame(p0: Contact, p1: Contact): Boolean {

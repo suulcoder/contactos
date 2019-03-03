@@ -33,12 +33,18 @@
                 android:id="@+id/save"
                 android:layout_gravity="right" tools:ignore="ContentDescription,RtlHardcoded"/>
 
-        <ImageView
-                android:layout_marginTop="10dp"
-                android:layout_width="200dp"
-                android:layout_height="200dp" app:srcCompat="@android:drawable/ic_menu_gallery"
-                android:id="@+id/imageView" tools:ignore="ContentDescription"/>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
+            <ImageView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp" app:srcCompat="@drawable/adduser"
+                    android:id="@+id/imageView" tools:ignore="ContentDescription"/>
 
+        <NumberPicker
+                android:id="@+id/number_picker_priority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal">
 
 
@@ -47,6 +53,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp" app:srcCompat="@android:drawable/ic_menu_camera"
                     android:id="@+id/tomar" tools:ignore="ContentDescription"/>
+
 
             <ImageButton
                     android:layout_width="50dp"
@@ -83,10 +90,6 @@
                 android:id="@+id/correo" android:inputType="textEmailAddress" android:hint="E-mail"
                 tools:ignore="Autofill,HardcodedText"/>
 
-        <NumberPicker
-                android:id="@+id/number_picker_priority"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
 
     </LinearLayout>

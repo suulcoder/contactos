@@ -15,18 +15,20 @@ import java.io.ByteArrayOutputStream
 @Database(entities = [Contact::class], version=1,exportSchema = false)
 abstract class ContactDatabase : androidx.room.RoomDatabase(){
 
-    abstract fun ContactDao(): ContactDao
+    abstract fun contactDao(): ContactDao
 
     companion object {
         private var instance: ContactDatabase? = null
 
-        fun getInstance(context: Context): ContactDatabase?{
-            if(instance ==null){
-                synchronized(ContactDatabase::class){
+        fun getInstance(context: Context): ContactDatabase? {
+            if (instance == null) {
+                synchronized(ContactDatabase::class) {
                     instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    ContactDatabase::class.java, "contact_database"
-                    ).fallbackToDestructiveMigration().addCallback(roomCallBack)
+                        context.applicationContext,
+                        ContactDatabase::class.java, "contacts_database"
+                    )
+                        .fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
+                        .addCallback(roomCallBack)
                         .build()
                 }
             }
@@ -48,15 +50,15 @@ abstract class ContactDatabase : androidx.room.RoomDatabase(){
 
 
     class PopulateDbAsyncTask(db: ContactDatabase?):AsyncTask<Unit, Unit, Unit>(){
-        private val ContactDao = db?.ContactDao()
+        private val ContactDao = db?.contactDao()
 
         override fun doInBackground(vararg params: Unit?) {
-            val elvis = (R.drawable.elvis as BitmapDrawable).bitmap//tomamos la foto actual
-            val Elvisimage = getBytesFromBitmap(elvis)//la convertimos a bytemap
-            val gates = (R.drawable.gates as BitmapDrawable).bitmap//tomamos la foto actual
-            val BillImage = getBytesFromBitmap(gates)//la convertimos a bytemap
-            ContactDao?.insert(Contact("Elvis Presley","12345678","rockking@gmail.com",Elvisimage,1))
-            ContactDao?.insert(Contact("Bill Gates","25896374","billgates@gmail.com",BillImage,2))
+            val bitmap = (R.drawable.adduser as BitmapDrawable).bitmap
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val imagen = stream.toByteArray()
+            ContactDao?.insert(Contact("Elvis Presley","12345678","rockking@gmail.com",1,imagen))
+            ContactDao?.insert(Contact("Bill Gates","25896374","billgates@gmail.com",2,imagen))
         }
 
         fun getBytesFromBitmap(bitmap: Bitmap): ByteArray {
