@@ -27,7 +27,7 @@ class Contactos : AppCompatActivity() {
         lateinit var adapter: ContactAdapter
         //Constants for the intent keys
         const val ADD_CONTACT_REQUEST = 1
-        const val EDIT_CONTACT_REQUEST = 1
+        const val EDIT_CONTACT_REQUEST = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

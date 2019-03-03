@@ -6,6 +6,7 @@ import android.content.Intent.getIntent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModelProviders
@@ -41,28 +42,30 @@ class Contacto : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contacto)
-        showNombre.setText(intent.getStringExtra(Crear.EXTRA_NOMBRE))//pedimos los datos del intent anterior
-        showPhone.setText(intent.getStringExtra(Crear.EXTRA_PHONE))
-        showMail.setText(intent.getStringExtra(Crear.EXTRA_MAIL))
+        val nombre = intent.getStringExtra(Crear.EXTRA_NOMBRE)
+        showNombre.setText(nombre)//pedimos los datos del intent anterior
         val number = intent.getStringExtra(Crear.EXTRA_PHONE)
+        showPhone.setText(number)
+        val mail = intent.getStringExtra(Crear.EXTRA_MAIL)
+        showMail.setText(mail)
 
         contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
         Id = intent.getIntExtra(Crear.EXTRA_ID, 1)
         Image = intent.getByteArrayExtra(Crear.EXTRA_IMAGE)
 
         home.setOnClickListener{//redirigimos los botones
-            val intento = Intent(this, Contactos::class.java)//Redirigimos a contactos
+            val intento = Intent(baseContext, Contactos::class.java)//Redirigimos a contactos
             startActivity(intento)
             this.finish()
         }
 
         edit.setOnClickListener{
                 val intent = Intent(baseContext, Crear::class.java)
-                intent.putExtra(Crear.EXTRA_NOMBRE, intent.getStringExtra(Crear.EXTRA_NOMBRE))
-                intent.putExtra(Crear.EXTRA_PHONE, intent.getStringExtra(Crear.EXTRA_PHONE))
-                intent.putExtra(Crear.EXTRA_MAIL, intent.getStringExtra(Crear.EXTRA_MAIL))
-                intent.putExtra(Crear.EXTRA_ID, intent.getStringExtra(Crear.EXTRA_ID))
-                intent.putExtra(Crear.EXTRA_IMAGE, intent.getStringExtra(Crear.EXTRA_IMAGE))
+                intent.putExtra(Crear.EXTRA_NOMBRE, nombre)
+                intent.putExtra(Crear.EXTRA_PHONE, number)
+                intent.putExtra(Crear.EXTRA_MAIL, mail)
+                intent.putExtra(Crear.EXTRA_ID, Id)
+                intent.putExtra(Crear.EXTRA_IMAGE, Image)
                 intent.putExtra(Crear.EXTRA_PRIORITY, intent.getStringExtra(Crear.EXTRA_PRIORITY))
                 startActivityForResult(intent, Contactos.EDIT_CONTACT_REQUEST)
         }
@@ -126,7 +129,7 @@ class Contacto : AppCompatActivity() {
             Id = updateContact.id
             Image = updateContact.image!!
 
-            Glide.with(this).load(Image).into(imageView)
+            Glide.with(this).load(Image).into(setPhoto)
 
 
         } else {

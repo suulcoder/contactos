@@ -12,7 +12,7 @@ import com.example.efpro.miscontactos.R
 import kotlinx.android.synthetic.main.activity_crear.*
 import java.io.ByteArrayOutputStream
 
-@Database(entities = [Contact::class], version=1,exportSchema = false)
+@Database(entities = [Contact::class], version=2,exportSchema = false)
 abstract class ContactDatabase : androidx.room.RoomDatabase(){
 
     abstract fun contactDao(): ContactDao
@@ -53,12 +53,8 @@ abstract class ContactDatabase : androidx.room.RoomDatabase(){
         private val ContactDao = db?.contactDao()
 
         override fun doInBackground(vararg params: Unit?) {
-            val bitmap = (R.drawable.adduser as BitmapDrawable).bitmap
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val imagen = stream.toByteArray()
-            ContactDao?.insert(Contact("Elvis Presley","12345678","rockking@gmail.com",1,imagen))
-            ContactDao?.insert(Contact("Bill Gates","25896374","billgates@gmail.com",2,imagen))
+            //ContactDao?.insert(Contact("Elvis Presley","12345678","rockking@gmail.com",1,imagen))
+            //ContactDao?.insert(Contact("Bill Gates","25896374","billgates@gmail.com",2,imagen))
         }
 
         fun getBytesFromBitmap(bitmap: Bitmap): ByteArray {

@@ -24,6 +24,7 @@ import com.example.efpro.miscontactos.Contactos.Companion.EDIT_CONTACT_REQUEST
 import com.example.efpro.miscontactos.data.ContactDao
 import com.example.efpro.miscontactos.data.ContactRepository
 import com.example.efpro.miscontactos.viewmodels.ContactViewModel
+import kotlinx.android.synthetic.main.activity_contacto.*
 import java.io.IOException
 class Crear : AppCompatActivity() {
 
@@ -50,7 +51,7 @@ class Crear : AppCompatActivity() {
 
         //si la opcion es editar
         if(intent.getIntExtra(EXTRA_ID,-1) != -1 ) {
-            nombre.setText(intent.getStringExtra(EXTRA_PHONE))
+            nombre.setText(intent.getStringExtra(EXTRA_NOMBRE))
             telefono.setText(intent.getStringExtra(EXTRA_PHONE))
             correo.setText(intent.getStringExtra(EXTRA_MAIL))
             number_picker_priority.value = intent.getIntExtra(EXTRA_PRIORITY,1)
@@ -121,8 +122,7 @@ class Crear : AppCompatActivity() {
             Intent.ACTION_PICK,
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
-
-        startActivityForResult(galleryIntent, 1)
+        startActivityForResult(galleryIntent, REQUEST_GALLERY)
     }
 
 
@@ -140,9 +140,7 @@ class Crear : AppCompatActivity() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
             }
-
         }
     }
 
