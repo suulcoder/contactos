@@ -113,8 +113,8 @@ class Contacto : AppCompatActivity() {
 
             val updateContact = Contact(
                 data!!.getStringExtra(Crear.EXTRA_NOMBRE),
-                data!!.getStringExtra(Crear.EXTRA_PHONE),
-                data!!.getStringExtra(Crear.EXTRA_MAIL),
+                data.getStringExtra(Crear.EXTRA_PHONE),
+                data.getStringExtra(Crear.EXTRA_MAIL),
                 data.getIntExtra(Crear.EXTRA_PRIORITY, 1),data.getByteArrayExtra(Crear.EXTRA_IMAGE)
             )
 
