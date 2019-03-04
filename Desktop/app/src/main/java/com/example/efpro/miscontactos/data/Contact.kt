@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import java.sql.Blob
 import java.util.*
 
+//Contact
 @Entity(tableName = "contact_table")
 data class Contact(var nombre:String, var tele:String, var email:String, var priority: Int, var image: ByteArray
 ) {
@@ -13,6 +14,5 @@ data class Contact(var nombre:String, var tele:String, var email:String, var pri
     //does it matter if these are private or not?
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
-
 
 }

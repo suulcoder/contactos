@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    //Useful for permisions
     private val MY_PERMISSIONS_REQUEST_CALL_PHONE = 1
     private val MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
     private val MY_PERMISSIONS_REQUEST_CAMERA = 1
